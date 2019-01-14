@@ -68,7 +68,7 @@ def insert_watch_history(row, watchdict):
     return watchdict[row['UserID']]
 
 
-user, movie, rating = load_data('E:/毕业论文/ml-1m/movies.dat', 'E:/毕业论文/ml-1m/users.dat', 'E:/毕业论文/ml-1m/ratings.dat')
+user, movie, rating = load_data('.../movies.dat', '.../users.dat', '.../ratings.dat')
 gender_map, gender_key = build_map(user, 'Gender')
 genre_map, genre_key = build_map(movie, 'Genres')
 occupation_map, occupation_key = build_map(user, 'Occupation')
@@ -110,7 +110,7 @@ movie_count = movie.shape[0]
 geo_count = len(geographic_key)
 occ_count = len(occupation_key)
 
-with open('E:/毕业论文/remap.pkl', 'wb') as f:
+with open('.../remap.pkl', 'wb') as f:
     pickle.dump(user, f, pickle.HIGHEST_PROTOCOL)
     pickle.dump(movie, f, pickle.HIGHEST_PROTOCOL)
     pickle.dump(rating, f, pickle.HIGHEST_PROTOCOL)
