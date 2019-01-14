@@ -2,7 +2,7 @@ import random
 import pickle
 
 
-with open('E:/毕业论文/remap.pkl', 'rb') as f:
+with open('.../remap.pkl', 'rb') as f:
     user = pickle.load(f)
     movie = pickle.load(f)
     rating = pickle.load(f)
@@ -26,5 +26,5 @@ training_data = list(i+j for i, j in zip(train_data, data_set))
 
 random.shuffle(training_data)
 
-with open('E:/毕业论文/dataset.pkl') as f:
+with open('.../dataset.pkl') as f:
     pickle.dump(training_data, f, pickle.HIGHEST_PROTOCOL)
