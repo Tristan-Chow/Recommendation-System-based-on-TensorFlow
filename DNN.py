@@ -3,7 +3,7 @@ import pickle
 from datahelper import *
 import math
 
-with open('E:/毕业论文/remap.pkl', 'rb') as f:
+with open('.../remap.pkl', 'rb') as f:
     genreNumpy = pickle.load(f)
 
 
