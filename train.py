@@ -4,7 +4,7 @@ from datahelper import genreNumpy
 import pickle
 from DataInput import *
 
-with open('E:/毕业论文/dataset.pkl', 'rb') as f:
+with open('.../dataset.pkl', 'rb') as f:
     training_data = pickle.load(f)
 
 
