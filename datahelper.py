@@ -99,16 +99,17 @@ watch_history_dict = generate_watch_history(rating)
 user['Watch_History'] = None
 user['Watch_History'] = user.apply(lambda row: watch_history_dict[row['UserID']], axis=1)
 
-genre = [[0] * 6]
-movie.apply(lambda row: genre.append(row['Genres']), axis=1)
-genreNumpy = np.array(genre)
-
 genre_count = len(genre_key)
 title_count = len(title_key)
 user_count = user.shape[0]
-movie_count = movie.shape[0]
+movie_count = 3953 #error in dataset, 'MovieID' has intervals
 geo_count = len(geographic_key)
 occ_count = len(occupation_key)
+
+genreNumpy = np.zeros([movie_count, len(genre_key)+1], np.int64)
+for index, row in movie.iterrows():
+    for genre in row['Genres']:
+        genreNumpy[row['MovieID']][genre] = genre
 
 with open('.../remap.pkl', 'wb') as f:
     pickle.dump(user, f, pickle.HIGHEST_PROTOCOL)
