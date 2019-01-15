@@ -31,7 +31,8 @@ def train(learning_rate=0.001):
                 dnn.a: train_data[2],
                 dnn.geo: train_data[3],
                 dnn.wh: train_data[4],
-                dnn.time: train_data[6]
+                dnn.time: train_data[6],
+                dnn.y: train_data[5]
             }
 
             step, _, loss = sess.run([global_step, train_op, dnn.loss], feel_dict)
