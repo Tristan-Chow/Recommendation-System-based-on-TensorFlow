@@ -1,10 +1,5 @@
 import tensorflow as tf
-import pickle
 from datahelper import *
-import math
-
-with open('.../remap.pkl', 'rb') as f:
-    genreNumpy = pickle.load(f)
 
 
 class DNN:
