@@ -8,15 +8,15 @@ with open('.../remap.pkl', 'rb') as f:
 
 
 class DNN:
-    def __init__(self, embedding_size, genre_size=genre_count, occ_size=occ_count, geo_size=geo_count,
+    def __init__(self, batch_num, embedding_size, genre_size=genre_count, occ_size=occ_count, geo_size=geo_count,
                  l2_reg_lamda=0.0, genre_matrix=genreNumpy):
-        self.g = tf.placeholder(tf.int64, [None, ])
-        self.a = tf.placeholder(tf.float64, [None, ])
-        self.o = tf.placeholder(tf.int64, [None, ])
-        self.geo = tf.placeholder(tf.int64, [None, ])
-        self.wh = tf.placeholder(tf.int64, [None, ])
-        self.time = tf.placeholder(tf.int64, [None, ])
-        self.y = tf.placeholder(tf.int64, [None, ])
+        self.g = tf.placeholder(tf.int64, [batch_num])
+        self.a = tf.placeholder(tf.float64, [batch_num])
+        self.o = tf.placeholder(tf.int64, [batch_num])
+        self.geo = tf.placeholder(tf.int64, [batch_num])
+        self.wh = tf.placeholder(tf.int64, [batch_num, None])
+        self.time = tf.placeholder(tf.int64, [batch_num])
+        self.y = tf.placeholder(tf.int64, [batch_num, 1])
 
         self.genre_Query = genre_matrix
 
@@ -27,7 +27,7 @@ class DNN:
         with tf.name_scope("embedding"):
             watch_genre = tf.gather(self.genre_Query, self.wh)
             watch_history_genre_emb = tf.nn.embedding_lookup(self.genre_emb_w, watch_genre)
-            watch_history_final = tf.reduce_mean(watch_history_genre_emb, axis=1)
+            watch_history_final = tf.reduce_mean(tf.reduce_mean(watch_history_genre_emb, axis=1),axis=1)
 
             geo_emb = tf.nn.embedding_lookup(self.geographic_emb_w, self.geo)
             occ_emb = tf.nn.embedding_lookup(self.occupation_emb_w, self.o)
