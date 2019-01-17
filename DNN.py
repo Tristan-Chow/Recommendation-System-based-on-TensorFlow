@@ -8,8 +8,8 @@ with open('.../remap.pkl', 'rb') as f:
 
 
 class DNN:
-    def __init__(self, batch_num, embedding_size, genre_size=genre_count, occ_size=occ_count, geo_size=geo_count,
-                 l2_reg_lamda=0.0, genre_matrix=genreNumpy):
+    def __init__(self, batch_num, embedding_size, genre_matrix, genre_size=genre_count, occ_size=occ_count, geo_size=geo_count,
+                 l2_reg_lamda=0.0):
         self.g = tf.placeholder(tf.int64, [batch_num])
         self.a = tf.placeholder(tf.float64, [batch_num])
         self.o = tf.placeholder(tf.int64, [batch_num])
@@ -48,8 +48,16 @@ class DNN:
         biases = tf.Variable(tf.zeros([movie_count]))
 
         with tf.name_scope("loss"):
-            self.loss = tf.reduce_mean(
-                tf.nn.sampled_softmax_loss(inputs=d_layer_3, weights=movie_embedding, biases=biases,
-                                           num_classes=movie_count, labels=self.y
-                                           num_true=1))
-
+            if mode == 'train':
+                self.loss = tf.reduce_mean(
+                    tf.nn.sampled_softmax_loss(movie_embedding, biases, self.y, d_layer_3,
+                                               num_sampled=100, num_classes=movie_count, num_true=1,
+                                               partition_strategy="div"
+                                               ))
+            elif mode == 'eval':
+                logits = tf.matmul(d_layer_3, tf.transpose(movie_embedding))
+                logits = tf.nn.bias_add(logits, biases)
+                labels_one_hot = tf.one_hot(self.y, movie_count)
+                self.loss = tf.nn.softmax_cross_entropy_with_logits_v2(
+                    labels=labels_one_hot,
+                    logits=logits)
