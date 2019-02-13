@@ -37,7 +37,7 @@ class DataInput:
 
         row_count = 0
         for item in batch_data:
-            for l in range(len(item[3])):
-                watch_history_matrix[row_count][l] = item[l][1]
+            for l in range(len(item[4])):
+                watch_history_matrix[row_count][l] = item[4][l]
             row_count += 1
         return self.i, (gender, occupation, age, geographic, watch_history_matrix, timestamp, y)
